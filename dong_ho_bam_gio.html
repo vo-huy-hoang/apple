@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đồng hồ bấm giờ</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Stopwatch</h1>
+        <p><span id="seconds">00</span>:<span id="tens">00</span></p>
+        <button onclick="buttonStart()">Start</button>
+        <button onclick="buttonStop()">Stop</button>
+        <button onclick="buttonReset()">Reset</button>
+        <button onclick="buttonSave()">Save</button>
+    </div> 
+
+    <script>
+        let seconds = '00';
+        let tens = '00';
+        let appendSeconds = document.getElementById('seconds');
+        let appendTens = document.getElementById('tens');
+
+        let Interval;
+        function buttonStart() {
+            clearInterval(Interval);
+            Interval = setInterval(startTimer, 10);
+        }
+        function buttonStop() {
+            clearInterval(Interval);
+        }
+        function buttonReset() {
+            clearInterval(Interval);
+            seconds = '00';
+            tens = '00';
+            appendTens.innerHTML = tens;
+            appendSeconds.innerHTML = seconds;
+        }
+        function startTimer() {
+            tens++;
+            if (tens <= 9) {
+                appendTens.innerHTML = '0' + tens;
+            }
+            if (tens > 9) {
+                appendTens.innerHTML = tens;
+            }
+            if (tens > 99) {
+                console.log('seconds');
+                seconds++;
+                appendSeconds.innerHTML = '0' + seconds;
+                tens = 0;
+                appendTens.innerHTML = '0' + 0;
+            }
+            if (seconds > 9) {
+                appendSeconds.innerHTML = seconds;
+            }
+        }
+        function buttonSave() {
+            
+        }
+    </script>
+</body>
+</html>
