@@ -13,6 +13,8 @@
         <button onclick="buttonStop()">Stop</button>
         <button onclick="buttonReset()">Reset</button>
         <button onclick="buttonSave()">Save</button>
+
+        <div id="times"></div>
     </div> 
 
     <script>
@@ -20,6 +22,8 @@
         let tens = '00';
         let appendSeconds = document.getElementById('seconds');
         let appendTens = document.getElementById('tens');
+        let times = [];
+        let time;
 
         let Interval;
         function buttonStart() {
@@ -37,8 +41,10 @@
             appendSeconds.innerHTML = seconds;
         }
         function startTimer() {
+            time = "";
             tens++;
             if (tens <= 9) {
+                //time = '0' + tens;
                 appendTens.innerHTML = '0' + tens;
             }
             if (tens > 9) {
@@ -50,13 +56,19 @@
                 appendSeconds.innerHTML = '0' + seconds;
                 tens = 0;
                 appendTens.innerHTML = '0' + 0;
+
             }
             if (seconds > 9) {
                 appendSeconds.innerHTML = seconds;
             }
+            if (seconds <= 9) {
+                appendSeconds.innerHTML = '0' + seconds;
+            }
+            time = seconds + ":" + tens + '<br>';
         }
         function buttonSave() {
-            
+            times.push(time);
+            document.getElementById("times").innerHTML = times; 
         }
     </script>
 </body>
