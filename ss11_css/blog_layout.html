@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f8fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        main {
+            display: flex;
+            flex-direction: column; /* sắp xếp các item theo chiều dọc */
+            align-items: center; /* căn giữa các item theo chiều ngang */
+            margin: 20px 0;
+        }
+
+        article {
+            background-color: #fff; 
+            box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none; /* gạch dưới */
+        }
+
+        #backToTop {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer; /* hiển thị con trỏ khi hover vào button */
+            z-index: 1; /* Đặt lớp trên cùng */
+        }
+
+        footer {
+            background-color: #333; 
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Blog của MG</h1>
+    </header>
+
+    <main>
+        <!-- mỗi bài viết được viết dưới dạng thẻ aricl -->
+        <article>
+            <h2>Khám phá Đà Nẵng trong 1 tuần lễ</h2>
+            <p>
+                Đà Nẵng là thành phố đáng sống với nhiều điểm du lịch tuyệt vời, phù hợp cho các khách du lịch
+            </p>
+            <a href="#">Đọc thêm</a>
+        </article>
+
+        <article>
+            <h2>Thực phẩm tươi ngon từ vùng cao</h2>
+            <p>
+                Khám phá những món ăn tươi ngon từ vùng cao, từ sườn núi đến các khu rừng nguyên sinh...
+            </p>
+            <a href="#">Đọc thêm</a>
+        </article>
+
+        <article>
+            <h2>Bí quyết khoẻ mạnh mỗi ngày</h2>
+            <p>
+                Làm thế nào để giữ sức khoẻ và có một cuộc sống lành mạnh? Hãy cùng tìm hiểu trong bài viết này
+            </p>
+            <a href="#">Đọc thêm</a>
+        </article>
+    </main>
+
+    <button id="backToTop" onclick="backToTop()">Quay lại trang đầu</button>
+
+    <footer>
+        <p>Bản quyền thuộc về MG &copy; 2024</p>
+    </footer>
+
+    <script>
+        function backToTop() {
+            window.scrollTo({
+                top: 0, // di chuyển đến trang đầu
+                behavior: "smooth", // cuộn mượt mà
+            });
+        }
+    </script>
+</body>
+</html>

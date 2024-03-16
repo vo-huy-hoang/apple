@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đếm số lần xuất hiện</title>
+</head>
+<body>
+    <button onclick="changeClickCount()">Click me!</button>
+    <p id="ClickCount">0</p>
+
+    <script>
+        let clickCount = 0;
+        function changeClickCount() {
+            clickCount ++;
+
+            document.getElementById('ClickCount').innerText = clickCount;
+        }
+    </script>
+</body>
+</html>

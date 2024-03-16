@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" id="number1" placeholder="nhập số thứ nhất">
+    <input type="number" id="number2" placeholder="nhập số thứ hai">
+
+    <button onclick="add_()">cộng</button>
+    <button onclick="sub()">trừ</button>
+    <button onclick="mul()">nhân</button>
+    <button onclick="div()">chia</button>
+
+    <p id="result">kết quả</p>
+
+    <script>
+        let number1;
+        let number2;
+        let resultElement = document.getElementById('result');
+        function input() {
+            number1 = +document.getElementById('number1').value;
+            number2 = parseFloat(document.getElementById('number2').value);
+
+                
+
+        
+        }
+  
+        let result;
+        function add_() {
+            input();
+            result = number1 + number2;
+            if (isNaN(number1) || isNaN(number2)) {
+                    resultElement.innerText = 'vui lòng nhập lại!';
+                } else {
+                    resultElement.innerText = result;
+                }
+
+            
+        }
+        function sub() {
+            input();
+            result = number1 - number2;
+        }
+        function mul() {
+            input();
+            result = number1 * number2;
+        }
+        function div() {
+            input();
+            if (number2 === 0) {
+                resultElement.innerText = 'lỗi phép tính!';
+                return;
+            }
+            result = number1 / number2;
+        }
+        resultElement.innerText = `kết quả: ${result}`;
+    </script>
+</body>
+</html>

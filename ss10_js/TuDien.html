@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Từ Điển</title>
+</head>
+<body>
+    <h1>Từ Điển Tiếng Anh - Tiếng Việt</h1>
+    <input type="text" id="wordInput" placeholder="Nhập từ điển tiếng anh">
+    <button onclick="translates()">Tra từ</button>
+    <p id="result"></p>
+    <script>
+        let englishWords = ["apple", "banana", "cat", "dog", "car", "bicycle", "table", "chess"];
+        let vietnameseWords = ["táo", "chuối", "mèo", "chó", "xe hơi", "xe đạp", "cái bàn", "bàn cờ"];
+        
+        function translates() {
+            // lấy từ cần dịch từ ô input
+            let wordToTranslate = document.getElementById('wordInput').value.trim();
+
+            // kiểm tra input không được trống
+            if (wordToTranslate === "") {
+                document.getElementById('result').innerText = "không được để trống";
+                return;
+            }
+
+            // tìm từ trong mảng từ điển
+            let index = englishWords.indexOf(wordToTranslate);
+
+            if (index != -1) {
+                // nếu tìm thấy phần tử, hiển thị nghĩa tiếng việt tương ứng
+                document.getElementById('result').innerText = vietnameseWords[index];
+            } else {
+                // nếu không tìm thấy thì in ra thông báo
+                document.getElementById('result').innerText = "Không tìm thấy";
+            }
+        }
+    </script>
+</body>
+</html>

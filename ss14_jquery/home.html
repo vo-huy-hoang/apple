@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p class="content">xin chao 1</p>
+    <p class="content">xin chao 2</p>
+    <p>xin chao</p>
+    <p>xin chao</p>
+
+    <button id="change-content">Change-Content</button>
+    <button id="get-value">Get value</button>
+
+    <input type="text">
+    <input type="text">
+    <script src="jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#get-value').click(function() {
+                alert($('input').val())
+            });
+            $('#change-content').click(function() {
+                $('p').text('hello') // thay đổi nội dung trong thẻ 
+                //$('p').css('color','red')
+                $('p').css({
+                    'color' : 'red',
+                    'background' : 'green'
+                })
+            });
+            // $('.content').click(function() {
+            //     // alert('OK')
+            //     alert($(this).text())
+            // });
+
+            $('p').click(function() {
+                // alert('OK')
+                alert($(this).text())
+            }); 
+        });
+    </script>
+</body>
+</html>

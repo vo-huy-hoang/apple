@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chức Năng</title>
+</head>
+<body>
+    <h2>Thêm nhiệm vụ</h2>
+    <input type="text" placeholder="Thêm nhiệm vụ" id="taskName"> 
+    <button onclick="addTask()" id="btn-add">Thêm</button>
+
+    <table border="1" style="border-collapse: collapse; text-align: center;">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên nhiệm vụ</th>
+                <th>Edit</th>
+                <th>Xoá</th>
+            </tr>
+        </thead>
+
+        <tbody id="task-list">
+            <tr>
+                <td>1</td>
+                <td>Học HTML</td>
+                <td>Edit</td>
+                <td>Xoá</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>Học Javascript</td>
+                <td>Edit</td>
+                <td>Xoá</td>
+            </tr>
+        </tbody>
+
+        <script>
+            let tasks = ["Học HTML", "Học Javascript", "Học Java"];
+            let editingTask = -1; // chức năng edit
+
+            function displayTasks () {
+                let body = '';
+                tasks.forEach((item, index) => { //
+                    // TH1: index = 0 => else
+                    // TH2: index = 1 => else
+                    // TH3: index = 2 = editingTask => if
+                    if (index == editingTask) { // hien thi input de cho nhap
+                        body += 
+                        `<tr>
+                            <td>${index + 1}</td>
+                            <td><input type="text" id="editTaskName"></td>
+                            <td><button onclick="saveEdit(${index})">Save</button></td>
+                            <td><button onclick="editingTask = -1; displayTasks()">Cancel</button></td>
+                        </tr>
+                        `
+                    }
+                    else {
+                        body += 
+                        `<tr>
+                            <td>${index + 1}</td>
+                            <td>${item}</td>
+                            <td><button onclick="editTask(${index})">Edit</button></td>
+                            <td><button onclick="deleteTask(${index})">Delete</button></td>
+                        </tr>
+                        `
+                    }
+                });
+                document.getElementById('task-list').innerHTML = body;
+            }
+            displayTasks();
+
+            function addTask() {
+                // Phân ra 2 TH
+                if (editingTask != -1) { // edit
+                    tasks[editingTask] = document.getElementById('taskName').value.trim();
+                    document.getElementById('btn-add').innerText = 'Thêm';
+                    editingTask = -1; // chức năng add
+                } else { // add
+                    tasks.push(document.getElementById('taskName').value);
+                }
+                document.getElementById('taskName').value = '';
+                // let taskName = document.getElementById('taskName').value; // thẻ input phải dùng value
+                displayTasks();
+            }
+            function editTask(index) { //index = 2
+                // document.getElementById('taskName').value = tasks[index];
+                // document.getElementById('btn-add').innerText = 'Chỉnh sửa';
+                editingTask = index; // editingTask = 2
+                displayTasks();
+                document.getElementById('editTaskName').value = tasks[index];
+            }
+
+            function deleteTask(index) {
+                let confirmDelete = confirm('Bạn có chắc muốn xoá nhiệm vụ này?');
+                if (confirmDelete) {
+                    tasks.splice(index, 1);
+                    displayTasks();
+                }
+            }
+            function saveEdit(index) {
+                let editTaskName = document.getElementById('editTaskName').value.trim();
+
+                tasks[index] = editTaskName;
+                editingTask = -1;
+                displayTasks();
+                
+            }
+        </script>
+    </table>
+</body>
+</html>

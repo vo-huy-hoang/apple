@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản Lý Nhà Đất</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <!-- Start toast -->
+    
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <!-- Position it: -->
+        <!-- - `.toast-container` for spacing between toasts -->
+        <!-- - `top-0` & `end-0` to position the toasts in the upper right corner -->
+        <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+        <div class="toast-container top-0 end-0 p-3 mt-4">
+      
+            <!-- Then put toasts within -->
+            <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+            
+                    <strong class="me-auto">Thông báp</strong>
+                    <small class="text-muted">Vừa mới</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Thêm mới thành công
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="container">
+
+        <div style="display: flex; justify-content: center;">
+            <h1 style="margin-top: 15px;">Quản lý Giao dịch Nhà và Đất</h1> 
+        </div>
+
+        <div style="display: flex; justify-content: space-between;">
+            <!-- Button trigger modal -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Xác Nhận Xoá Giao Dịch</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xoá giao dịch có mã <span id="alert-trasactionCode" class="form-label text-danger"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button onclick="deleteCustomer()" type="button" class="btn btn-danger">Xoá</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal detail -->
+            <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi Tiết Giao Dịch</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Bạn có chăc muốn xoá <p id="alert-name" class="form-label"></p> -->
+                            <p>Mã Giao Dịch: <span id="detail-trasactionCode"></span></p>
+                            <p>Loại Dịch Vụ: <span id="detail-serviceType"></span></p>
+                            <p>Ngày Giao Dịch: <span id="detail-date"></span></p>
+                            <p>Đơn Giá (VND/m2): <span id="detail-unitPrice"></span></p>
+                            <p>Diện Tích (m2): <span id="detail-area"></span></p>
+                            <p>Tên Khách Hàng: <span id="detail-nameCustomer"></span></p>
+                            <p>Số Điện Thoại: <span id="detail-phone"></span></p>
+                            <p>Email: <span id="detail-mail"></span></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAdd" style="margin: 20px;"><i class="fa-solid fa-plus style=" style="margin-right: 5px"></i>Thêm Mới</button>
+            <div class="d-flex justify-content-end">
+                <form class="row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-12">
+                        <label class="visually-hidden" for="searchName">Username</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchName" style="width: 300px;" placeholder="Tìm Kiếm Theo Tên Khách Hàng">
+                        </div>
+                    </div>
+                  
+                    <div class="col-12">
+                        <label class="visually-hidden" for="searchServiceType">Preference</label>
+                        <select class="form-select" id="searchServiceType">
+                            <option value="0">Loại Dịch Vụ</option>
+                            <option value="1">Nhà</option>
+                            <option value="2">Đất</option>
+                            <option value="3">Nhà và Đất</option>
+
+                        </select>
+                    </div>
+                  
+                    <div class="col-12">
+                    </div>
+                  
+                    <div class="col-12">
+                        <button onclick="display()" type="button" class="btn btn-primary" style="margin-right: 20px;"><i class="fa-solid fa-magnifying-glass" style="margin-right: 5px;"></i>Tìm kiếm</button>
+                    </div>
+                  </form>
+            </div>
+        </div>
+        <!-- Modal add -->
+        <div class="modal fade" id="modalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Mới Giao Dịch</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="form-add" action="#">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="trasactionCode" class="form-label">Mã giao dịch</label>
+                                <input required type="text" class="form-control" id="trasactionCode" aria-describedby="emailHelp">
+                                <p id="error-trasactionCode" class="text-danger"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="serviceType" class="form-label">Loại dịch vụ</label>
+                                <select class="form-select" id="serviceType">
+                                    <option value="1">Nhà</option>
+                                    <option value="2">Đất</option>
+                                    <option value="3">Nhà và Đất</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Ngày giao dịch</label>
+                                <input required type="date" class="form-control" id="date" aria-describedby="emailHelp">
+                                <p id="error-date" class="text-danger"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="unitPrice" class="form-label">Đơn giá (VND/m2)</label>
+                                <input required type="text" class="form-control" id="unitPrice" aria-describedby="emailHelp">
+                                <p id="error-unitPrice" class="text-danger"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="area" class="form-label">Diện tích</label>
+                                <input required type="text" class="form-control" id="area" aria-describedby="emailHelp">
+                                <p id="error-area" class="text-danger"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nameCustomer" class="form-label">Tên Khách Hàng</label>
+                                <select class="form-select" id="nameCustomer">
+                                    <option value="1"></option>
+                                    <option value="2"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Thêm mới</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Mã giao dịch</th>
+                    <th scope="col">Loại dịch vụ</th>
+                    <th scope="col">Ngày giao dịch</th>
+                    <th scope="col">Đơn giá (VND/m2)</th>
+                    <th scope="col">Diện tích (m2)</th>
+                    <th scope="col">Tên khách hàng</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Chi tiết</th>
+                    <th scope="col">Xoá</th>
+                </tr>
+            </thead>
+            <tbody id="list-customer">
+                <tr>
+                    <th>MGD-001</td>
+                    <td>Đất</td>
+                    <td>2023-09-09</td>
+                    <td>600,000</td>
+                    <td>100</td>
+                    <td>Võ Huy Hoàng</td>
+                    <td>0935271790</td>
+                    <td>huyhoangdn2005@gmail.com</td>
+                    <td><button type="button" class="btn btn-primary"><i class="fa-solid fa-eye" style="margin-right: 5px;"></i></button></td>
+                    <td><button type="button" class="btn btn-danger"><i class="fa-regular fa-trash-can" style="margin-right: 5px;"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="./jquery-3.7.1.min.js"></script>
+    <script>
+        let transactions = [
+            {
+                id: 1,
+                customerId: 1,
+                trasactionCode: 'MGD-1234',
+                date: '2023-01-15',
+                serviceType: 'Nhà',
+                unitPrice: 1500000,
+                area: 120,
+            }, 
+            {
+                id: 2,
+                customerId: 2,
+                trasactionCode: 'MGD-0001',
+                date: '2023-01-16',
+                serviceType: 'Đất',
+                unitPrice: 1800000,
+                area: 100,
+            },
+            {
+                id: 3,
+                customerId: 2,
+                trasactionCode: 'MGD-0002',
+                date: '2023-01-16',
+                serviceType: 'Đất',
+                unitPrice: 1900000,
+                area: 110,
+            },
+            {
+                id: 4,
+                customerId: 3,
+                trasactionCode: 'MGD-0003',
+                date: '2023-01-16',
+                serviceType: 'Nhà và Đất',
+                unitPrice: 1900000,
+                area: 110,
+            }
+        ];
+
+        let customers = [
+            {
+                id: 1,
+                name: 'Võ Huy Hoàng',
+                phone: '0935271790',
+                email: 'huyhoangdn2005@gmail.com',
+            },
+            {
+                id: 2,
+                name: 'Đặng Hoài Đức',
+                phone: '0935271791',
+                email: 'huyhoangdn2006@gmail.com',
+            },
+            {
+                id: 3,
+                name: 'Nguyễn Văn A',
+                phone: '0935271792',
+                email: 'huyhoangdn2007@gmail.com',
+            },
+            {
+                id: 4,
+                name: 'Nguyễn Văn B',
+                phone: '0935271793',
+                email: 'huyhoangdn2008@gmail.com',
+            },
+        ];
+        let serviceTypes = [
+            {
+                id: 1,
+                name: 'Nhà',
+            },
+            {
+                id: 2,
+                name: 'Đất',
+            },
+            {
+                id: 3,
+                name: 'Nhà và Đất',
+            }
+        ];
+
+
+        $(document).ready(function() {
+            display();
+            displayOption();
+            // form đi với sự kiện submit
+            $('#form-add').submit(function() {
+                $('#error-trasactionCode').text(''); // clear hết message lỗi
+                let trasactionCode = $('#trasactionCode').val();
+                // if (!transaction.startsWith('MGD-')) {
+                //     $('#error-trasactionCode').text('phải bắt đầu bằng MGD-')
+                // }
+
+                let serviceType = $('#serviceType').val();
+                
+                let date = $('#date').val();
+
+                $('#error-unitPrice').text('');
+                let unitPrice = $('#unitPrice').val();
+                if (!isNaN(unitPrice) || unitPrice <= 500000) {
+                    $('#error-unitPrice').text('Đơn giá phải là số và phải lớn hơn 500.000 (VND)')
+                }
+
+                $('#error-area').text('');
+                let area = $('#area').val();
+                if (isNaN(area) || area <= 20) {
+                    $('#error-area').text('Diện tích phải là số và lớn hơn 20 (m2).')
+                }
+
+                let nameCustomer = $('#nameCustomer').val();
+                // add vào list
+                
+                transactions.push({
+                    id: Math.ceil(Math.random()*100000),
+                    customerId: nameCustomer,
+                    trasactionCode: trasactionCode,
+                    date: date,
+                    serviceType: serviceTypes.find(item => item.id == serviceType).name,
+                    unitPrice: unitPrice,
+                    area: area,
+                })
+                display();
+                $('#modalAdd').modal('toggle');
+                $('.toast').toast('show');
+                // clear hết thông tin trong thẻ input khi nhấn vào thêm lần 2
+                $('input').val('');
+                debugger
+            });
+        });
+
+        function display() {
+            let contentBody = '';
+            let searchName = $('#searchName').val();
+            let searchServiceTypeId = $('#searchServiceType').val();
+            let serviceTypeSearch = transactions;
+            if (searchServiceTypeId != '0') {
+                serviceTypeSearch = transactions.filter(transaction => transaction.customerId == searchServiceTypeId)
+            }
+            serviceTypeSearch.filter(transaction => customers.find(customer => customer.id == transaction.customerId).name.includes(searchName)).forEach((transaction, index) => {
+                let customer = customers.find(customer => customer.id == transaction.customerId)   
+                contentBody += 
+                `
+                <tr>
+                    <td>${transaction.trasactionCode}</td>
+                    <td>${transaction.serviceType}</td>
+                    <td>${transaction.date}</td>
+                    <td>${transaction.unitPrice}</td>
+                    <td>${transaction.area}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.phone}</td>
+                    <td>${customer.email}</td>
+                    <td>
+                        <button onclick="detailCustomer(${index})" data-bs-toggle="modal" data-bs-target="#modalDetail" type="button" class="btn btn-primary"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                    <td>
+                        <button onclick="alertCustomer(${index})" data-bs-toggle="modal" data-bs-target="#modalDelete" type="button" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button>
+                    </td>
+                </tr>  
+                `;
+            })
+            $('#list-customer').html(contentBody);
+        }
+        function displayOption() {
+            let contentBody ='';
+            customers.forEach((customer, index) => {
+                contentBody += 
+                `
+                <option value="${customer.id}">${customer.name}</option>
+                `;
+            })
+            $('#nameCustomer').html(contentBody);
+        }
+
+        let indexEditing = -1;
+        function detailCustomer(index) {
+            indexEditing = index;
+            $('#detail-trasactionCode').text(transactions[index].trasactionCode)
+            $('#detail-serviceType').text(transactions[index].serviceType)
+            $('#detail-date').text(transactions[index].date)
+            $('#detail-unitPrice').text(transactions[index].unitPrice)
+            $('#detail-area').text(transactions[index].area)
+            $('#detail-nameCustomer').text(customers[index].name)
+            $('#detail-phone').text(customers[index].phone)
+            $('#detail-mail').text(customers[index].email)
+        }
+        function alertCustomer(index) {
+            indexEditing = index;
+            $('#alert-trasactionCode').text(transactions[index].trasactionCode)
+        }
+        function deleteCustomer() {
+            transactions.splice(indexEditing, 1);
+            display();
+            $('#modalDelete').modal('toggle');
+        }
+    </script>
+  </body>
+</html>

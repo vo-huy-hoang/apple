@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>SQC</title>
+    <style>
+        body{
+            width: 100%;
+            margin: 0;
+        }
+        ul, ol {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        .menu-li {
+            padding: 0 20px;
+            line-height: 70px;
+            transition: 0.4s;
+        }
+        .menu-li:hover {
+            color: rgb(47, 47, 161);
+            font-size: 18px;
+        }
+        .name {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            line-height: 70px;
+        }
+        .main-div {
+            background-color: rgb(234, 239, 240);
+            height: 70px;
+        }
+        .image-sqc img{
+            height: 60px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .fa-solid fa-user {
+            margin-right: 5px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-div">
+        <nav class="menu-nav">
+            <ul class="menu-ul">
+                <li class="menu-li">TRANG CHỦ</li>
+                <li class="menu-li">KHOÁ HỌC</li>
+                <li class="menu-li">LỘ TRÌNH HỌC</li>
+                <li class="menu-li">BLOGS</li>
+                <li class="menu-li">VỀ CHÚNG TÔI</li>
+            </ul>
+            <ul class="name"><i class="fa-solid fa-user"></i>Hoang Huy</ul>
+            <ul class="image-sqc"><img src="/ss12_css/img/sqc.png" alt=""></ul>
+        </nav>
+    </div>
+</body>
+</html>

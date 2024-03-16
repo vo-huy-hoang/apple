@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function
+        // function Student(id, name, score) {
+        //     this.id = id;
+        //     this.name = name;
+        //     this.score = score;
+
+        //     this.run = function run() {
+        //         return `$(name) co the chay nhanh`
+        //     }
+        // }
+
+        // class Student {
+        //     constructor(id, name, score) {
+        //         this.id = id;
+        //         this.name = name;
+        //         this.score = score;
+        //     }
+        //     run() {
+        //         return `$(name) co the chay nhanh`
+        //     }
+        // }
+        // let s1 = new Student(1, 'Nguyen Van A', 8.2);
+        // console.log(s1.run());
+
+        // cach khac
+        let s1 = {
+            id : 1,
+            name : "Nguyen Van A",
+            score : 9.6,
+
+            run() {
+                return `$(name) co the chay nhanh`
+            },
+        };
+        console.log(s1);
+        console.log(s1.run());
+
+        // chú ý: nên sử dụng class
+        // tạo ra đối tượng thông qua từ khoá new
+        // trong JS : 1 class chỉ được phép có tối đa 1 constructor
+    </script>
+</body>
+</html>

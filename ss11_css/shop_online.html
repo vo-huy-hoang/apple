@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* đảm bảo body lun chiếm ít nhất 100% chiều cao của viewport */
+        }
+
+        header {
+            background-color: #333; 
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        main {
+            flex: 1; /* cho phép main chiếm tối đa diện tích còn lại sau khi header và footer được hiển thị */
+        }
+
+        .product-flex {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            justify-content: flex-start;
+        }
+
+        .product {
+            /* flex: 1; */ /* cho mỗi sản phẩm chiếm tối đa không gian có thể */
+            margin: 5px; /* tạo khoảng cách giữa các sản phẩm */
+            width: calc(
+                33.333% - 10px
+            );/* xác định độ rộng tối đa của mỗi sản phẩm */
+            transition: transform 0.3s; /* hiệu ứng chuyển đổi khi tương tác */
+        }
+
+        .product:hover {
+            transform: scale(1.05); /* phóng to sản phẩm khi di chuột qua */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* đổ bóng khi di chuột qua */
+        }
+
+        .product img {
+            width: 100%;
+            height: auto; /* tự động điều chỉnh chiều cao để giữ tỉ lệ */
+        }
+
+        .product h2 {
+            margin: 0;
+            padding: 15px;
+            color: #333;
+            font-size: 1.25rem;
+        }
+
+        .product p {
+            margin: 0;
+            padding: 15px;
+            font-size: 1rem;
+            color: #777;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .drop-down {
+            position: relative;
+        }
+
+        li.drop-down:hover .sub-menu {
+            display: block;
+        }
+        header nav ul li {
+            margin-right: 20px;
+            color: aliceblue;
+            cursor: pointer;
+        }
+
+        ul, ol {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cửa hàng trực tuyển TechStore</h1>
+        <nav>
+            <ul>
+                <li> <a href="#">Home</a></li>
+                <li class="drop-down">
+                    <a href="#">Products</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Laptops</a></li>
+                        <li><a href="#">Mobiles</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </li>
+                <li> <a href="#">Services</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="product-flex">
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1500$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1000$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1200$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1300$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1200$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1200$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1000$</p>
+            </article>
+
+            <article class="product">
+                <img src="/ss11_css/img/iphone14.png" alt="iphone 14 pro">
+                <h2>iphone 14 pro</h2>
+                <p>Giá: 1000$</p>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TechStore. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chuyển đổi tiền tệ</title>
+</head>
+<body>
+    <input type="number" id="amount" placeholder="Nhập số tiền">
+
+    <select id="fromCurrency">
+        <option value="VND">VND</option>
+        <option value="USD">USD</option>
+    </select> 
+
+    <select id="toCurrency">
+        <option value="USD">USD</option>
+        <option value="VND">VND</option>
+    </select>
+
+    <button onclick="convertCurrentcy()">Chuyển đổi</button>
+
+    <p id="result"></p>
+
+    <script>
+        function convertCurrentcy() {
+            let amount = parseFloat(document.getElementById('amount').value);
+            let fromCurrency = document.getElementById('fromCurrency').value;
+            let toCurrency = document.getElementById('toCurrency').value;
+
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('result').innerText = 'vui lòng nhập lại tiền tệ';
+                return;
+            }
+
+            let result;
+            if (fromCurrency === "VND" && toCurrency === "USD") {
+                result = amount / 23000;
+            } else if (fromCurrency === "USD" && toCurrency === "VND") {
+                result = amount * 23000;
+            } else {
+                result = amount; // nếu cùng loại tiền tệ
+            }
+            document.getElementById('result').innerText = `Kết quả: ${result} ${toCurrency}`;
+        }
+    </script>
+</body>
+</html>

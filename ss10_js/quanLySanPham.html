@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm</title>
+</head>
+<body>
+    <h1>Quản lý sản phẩm</h1>
+    <form id="productForm">
+        <table>
+            <tr>
+                <td><label for="productName">Tên sản phẩm:</label></td>
+                <td><input type="text" id="productName" placeholder="Tên sản phẩm" /></td>
+            </tr>
+
+            <tr>
+                <td><label for="productPrice">Giá sản phẩm</label></td>
+                <td><input type="text" id="productPrice" placeholder="Gía sản phẩm" /></td>
+            </tr>
+
+            <tr>
+                <td><label for="productQuantity">Số lượng:</label></td>
+                <td><input type="text" id="productQuantity" placeholder="Giá sản phẩm" /></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><button type="button" id="addButton" onclick="addProduct()">Thêm sản phẩm</button></td>
+            </tr>
+        </table>
+    </form>
+     <!-- bảng hiển thị danh sách sản phẩm -->
+     <table
+        border="1"
+        style="border-collapse: collapse; text-align: center"
+        id="productTable"
+     >
+        <tr>
+            <th>STT</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Sửa</th>
+            <th>Xoá</th>
+            <th>Mua hàng</th>
+        </tr>
+     </table>
+     <!-- UI cho giỏ hàng -->
+     <h2>Giỏ hàng</h2>
+     <table
+        border="1"
+        style="border-collapse: collapse; text-align: center"
+        id="cartTable"
+     >
+        <tr>
+            <th>STT</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Tổng gía</th>
+            <th>+</th>
+            <th>-</th>
+            <th>xoá</th>
+        </tr>
+     </table>
+
+     <script>
+        // mảng lưu thông tin sản phẩm và giỏ hàng
+        let products = [];
+        let carts = [];
+        let editingIndex = -1;
+
+        // hàm kiểm tra có hợp lệ hay không
+        function valicateInput(name, price, quantity) {
+            if (!name || !price || !quantity) {
+                alert("tất cả các trường học không được để trống");
+                return false;
+            }
+            return true;
+        }
+
+        // hàm thêm sản phẩm mới
+        function addProduct() {
+            let name = document.getElementById('productName').value.trim(); // '   nguyen van a   ' => 'nguyen van a'
+            let price = document.getElementById('productPrice').value.trim();
+            let quantity = document.getElementById('productQuantity').value.trim();
+
+            // kiểm tra đầu vào 
+            if (!valicateInput(name, price, quantity)) {
+                return;
+            }
+
+            // hàm kiểm tra xem tên sản phẩm đã có trong mảng chưa
+           // let existingProduct = products.filter((product) => product.name == name)[0];
+            let existingProduct = products.find(function (product) {return product.name == name});
+            debugger
+            if (existingProduct) {
+                alert("tên sản phẩm đã tồn tại, vui lòng nhập tên khác");
+                return;
+            }
+            let product = {
+                name : name,
+                price : parseFloat(price),
+                quantity : parseFloat(quantity),
+            };
+
+            // thêm sản phẩm vào mảng
+            products.push(product);
+            // cập nhật UI
+            displayProducts();
+        }
+        // hàm hiển thị sản phẩm
+        function displayProducts() {
+            let tableContent = 
+                "<tr><th>STT</th><th>Tên sản phẩm</th><th>Giá</th><th>Số lượng</th><th>Sửa</th><th>Xoá</th><th>Mua hàng</th></tr>";
+            products.forEach((product, index) => {
+                // nếu đang trong chế độ chỉnh sửa, hiển thị trường input tương ứng sản phẩm đang chỉnh sửa
+                if (index === editingIndex) {
+                    tableContent += 
+                    `<tr>
+                        <td>${index + 1}</td>
+                        <td><input type="text" id="editedName" value="${product.name}"></td>
+                        <td><input type="number" id="editedPrice" value="${product.price}"></td>
+                        <td><input type="nunber" id="editedQuantity" value="${product.quantity}"></td>
+                        <td><button onclick="saveEdit(${index})">Save</button></td>
+                        <td><button onclick="cancelEdit())">Cancel</button></td>
+                        <td><button onclick="buyProduct(${index})">Mua hàng</button></td>
+                    </tr>`;
+                } else {
+                    tableContent += 
+                    `<tr>
+                        <td>${index + 1}</td>
+                        <td>${product.name}</td>
+                        <td>${product.price}</td>
+                        <td>${product.quantity}</td>
+                        <td><button onclick="editProduct(${index})">fix</button></td>
+                        <td><button onclick="deleteEdit(${index}))">delete</button></td>
+                        <td><button onclick="buyProduct(${index})">Mua hàng</button></td>
+                    </tr>`;
+                }
+            });
+            document.getElementById('productTable').innerHTML = tableContent;
+        }   
+        // hàm chỉnh sửa thông tin sản phẩm
+        function editProduct(index) {
+            editingIndex = index;
+            displayProducts();
+        }
+        // hàm lưu thông tin sản phẩm sau khi chỉnh sửa chỉnh sửa  
+        function saveEdit(index) {
+            // lấy thông tin từ các trường input
+            let editedName = document.getElementById('editedName').value.trim();
+            let editedPrice = document.getElementById('editedPrice').value.trim();
+            let editedQuantity = document.getElementById('editedQuantity').value.trim();
+            
+            // kiểm tra các trường input
+            if (!valicateInput(editedName, editedPrice, editedQuantity)) {
+                return;
+            }
+
+            // kiểm tra tên có trùng với tên sản phẩm khác không
+            let existingProduct = products.find((product, i) => i !== index && product.name === editName);
+            if (existingProduct) {
+                alert("Tên sản phẩm tồn tại, vui lòng chọn tên khác");
+                return;
+            }
+
+            // lấy tên sản phẩm cũ để cập nhật tên giỏ hàng nếu cần
+            let oldProductName = products[index].name;
+
+            // tạo thông tin sản phẩm sau khi chỉnh sửa
+            let editedProduct = {
+                name : editedName,
+                price : +editedPrice,
+                quantity : editedQuantity,
+            };
+
+            // cập nhật thông tin sản phẩm trong danh sách sản phẩm 
+            products[index] =  editedProduct;
+
+            // nếu sản phẩm cũng có trong giỏ hàng, cập nhật thông tin trong giỏ hàng
+            let cartItem = carts.find((item) => item.product.name === oldProductName);
+            if (cartItem) {
+                cartItem.product = editProduct;
+            }
+
+            editingIndex = -1 // đặt chỉ số đang chỉnh sửa về giá trị mặc định
+            displayProducts(); // hiển thị lại danh sách sản phẩm
+            displayCart(); // hiển thị lại giỏ hàng
+        }
+        
+        // hàm huỷ bỏ chỉnh sửa sản phẩm
+        function cancelEdit() {
+            editingIndex = -1;
+            displayProducts();
+        }
+
+        // hàm xoá sản phẩm
+        function deleteProduct(index) {
+            let product = products[index];
+            let cartIndex = cart.findIndex((item) => item.product.name === product.name);
+            let confirmationText = cartIndex !== -1
+                ? "sản phầm này đang nằm trong giỏ hàng, bạn có chắc muốn xoá nó khỏi giỏ hàng và danh sách sản phẩm không?"
+                : "Bạn có chắc muốn xoá sản phẩm này";
+            let confirmation = confirm(confirmationText);
+            if (confirmation) {
+                // xoá sản phẩm ra khỏi danh sách sản phẩm
+                products.splice(index, 1);
+
+                // nếu sản phẩm có trong giỏ hàng, xoá nó
+                if (cartIndex !== -1) {
+                    carts.splice(cartIndex, 1);
+                }
+                displayProducts();
+                displayCart(); // cập nhật lại giỏ hàng
+            }
+        }
+        // hàm mua sản phẩm và thêm vào giỏ hàng
+        function buyProduct(index) {
+            let product = products[index];
+            if (product.quantity === 0) {
+                alert("Sản phẩm đã hết hàng");
+                return;
+            }
+            addToCart(index);
+            displayProducts();
+            displayCart();
+        }
+        // hàm hiển thị giỏ hàng
+        function displayCart() {
+            let tableContent = "<tr><th>STT</th><th>Tên sản phẩm</th><th>Số lượng</th><th>Tổng gía</th><th>+</th><th>-</th><th>xoá</th></tr>"
+            carts.forEach((cartItem, index) => {
+
+                tableContent += 
+                `<tr>
+                    <td>${index + 1}</td>
+                    <td>${cartItem.product.name}</td>
+                    <td>${cartItem.product.quantity}</td>
+                    <td>${cartItem.product.price * cartItem.quantity}</td>
+                    <td><button onclick="increaseQuantity(${index})">+</button></td>
+                    <td><button onclick="decreaseQuantity(${index})">-</button></td>
+                    <td><button onclick="removeFromCart(${index})">delete</button></td>
+                </tr>`; 
+            });
+            document.getElementById('cartTable').innerHTML = tableContent;
+        }
+
+        // thêm sản phẩm vào giỏ hàng
+        function addToCart(index) {
+            // lấy thông tin về sản phẩm tại vị trí index trong danh sách sản phẩm
+            let product = products[index];
+
+            // kiểm tra xem sản phẩm còn trong giỏ hàng hay không
+            if (product.quantity <= 0) {
+                alert('sản phẩm đã hết hàng');
+                return;
+            }
+            // tìm xem sản phẩm có trong giỏ hàng chư
+            let cartItem = carts.find((item => item.product.name === product.name));
+            
+            // nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                // nếu chưa có, thêm sản phẩm vào giỏ hàng với số lượng là 1
+                carts.push({product: {...product}, quantity: 1}); // sử dụng ...product để tạo 1 bản sao của sản phẩm
+            }
+            // giảm số lượng sản phẩm trong kho đi 1
+            product.quantity--;
+        }
+        // hàm increaseQuantity(index) tăng số lượng của 1 sản phẩm trong giỏ hàng
+        function increaseQuantity(index) {
+            // lấy thông tin sản phẩm và số lượng trong giỏ hàng tại vị trí index
+            let cartItem = carts[index];
+
+            // tìm sản phẩm tương ứng trong danh sách sản phẩm dựa trên tên sản phẩm
+            let correspondingProduct = products.find(
+                (p) => p.name == cartItem.product.name
+            );
+
+            // kiểm tra xem còn đủ số lượng sản phẩm trong kho để tăng hay không
+            if (correspondingProduct.quantity === 0) {
+                alert("Không đủ sản phẩm trong kho");
+                return;
+            }
+
+            // Tăng số lượng của sản phẩm trong giỏ hàng
+            cartItem.quantity++ ;
+
+            // giảm số lượng sản phẩm trong danh sách chính
+            correspondingProduct.quantity-- ;
+
+            // cập nhật giao diện hiển thị giỏ hàng và danh sách sản phẩm
+            displayCart();
+            displayProducts();
+        }
+
+        // decreaseQuantity(index) giảm số lượng của một sản phẩm trong giỏ hàng
+        function decreaseQuantity(index) {
+            // lấy thông tin sản phẩm và số lượng trong giỏ hàng tại vị trí index
+            let cartItem = carts[index];
+
+            // tìm sản phẩm tương ứng trong danh sách sản phẩm dựa trên tên sản phẩm
+            let correspondingProduct = products.find(
+                (p) => p.name === cartItem.product.name
+            );
+            // giảm số lượng của sản phẩm trong giỏ hàng
+            cartItem.quantity-- ;
+
+            // tăng số lượng sản phẩm trong danh sách chính
+            correspondingProduct.quantity++ ;
+
+            // nếu số lượng trong giỏ hàng giảm xuống 0, loại bỏ sản phẩm khỏi giỏ hàng
+            if (cartItem.quantity === 0) {
+                carts.splice(index, 1);
+            }
+
+            // cập nhật giao diện hiển thị giỏ hàng và danh sách sản phẩm
+            displayCart();
+            displayProducts();
+        }
+
+        // hàm removeFromCart(index) được sử dụng để xoá 1 sản phẩm khỏi giỏ hàng
+        function removeFromCart(index) {
+            // lấy thông tin sản phẩm và số lượng trong giỏ hàng tại vị trí index
+            let cartItem = carts[index];
+
+            // tìm sản phẩm tương ứng trong danh sách sản phẩm dựa trên tên sản phẩm
+            let correspondingProduct = products.find(
+                (p) => p.name === cartItem.product.name
+            );
+
+            // trả lại số lượng sản phẩm vào danh sách sản phẩm chính
+            correspondingProduct.quantity += cartItem.quantity;
+            
+            // xoá sản phẩm khỏi giỏ hàng
+            carts.splice(index, 1);
+
+            // cập nhật giao diện hiển thị giỏ hàng và danh sách sản phẩm
+            displayCart();
+            displayProducts();
+        }
+     </script>
+</body>
+</html>

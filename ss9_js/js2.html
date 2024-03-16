@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xếp loại học sinh</title>
+</head>
+<body>
+    <h1>Xếp loại học lực</h1>
+    <input type="text" id="scoreInput" placeholder="Nhập điểm của bạn">
+    <button onclick="gradeStudent()">Xếp loại</button>
+    <p id="gradeResult"></p>
+    
+    <script>
+        function gradeStudent() {
+            let score = document.getElementById('scoreInput').value;
+            let result = document.getElementById('gradeResult');
+            
+            if (isNaN(score) || score < 0 || score > 10) {
+                result.innerText = 'điểm nhập vào không hơp lệ, vui lòng nhập lại';
+                return;
+            }        
+            if (score < 5) {
+                result.innerText = 'Yếu';
+            } else if (score >= 5 && score < 6.5){
+                result.innerText = 'Trung bình';
+            } else if (score >= 6.5 && score <= 8) {
+                result.innerText = 'Khá';
+            } else if (score >= 8) {
+                result.innerText = 'Giỏi';
+            }
+        }
+    </script>
+</body>
+</html>
